@@ -1,0 +1,22 @@
+services:
+  customer-service:
+    build:
+      context: ./customer-service/customer-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+  order-service:
+    build:
+      context: ./order-service/order-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - customer-service
+      - order-service                       
